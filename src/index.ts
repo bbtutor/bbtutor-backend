@@ -1,32 +1,24 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
-
+import authRoute from './routes/authRoutes';
+import errorHandler from './errors/errorHandler';
+import connectDB from './config/db';
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// Connect to MongoDB Database
+connectDB();
+
+// Middleware
 app.use(express.json());
 
-/**
- * @swagger
- * /:
- *   get:
- *     summary: Returns a hello world message
- *     responses:
- *       200:
- *         description: A hello world message
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- */
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Hello World!' });
-});
+// Routes
+app.use('/api/auth', authRoute);
+
+// Error handler
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -1,5 +1,5 @@
 import checkEnv from './checkEnv';
-import IUser from './interface';
+import IUser from '../interfaces/userInterface';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = checkEnv(process.env.JWT_SECRET as string);
