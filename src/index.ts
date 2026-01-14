@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import authRoute from './routes/authRoutes';
 import errorHandler from './errors/errorHandler';
 import connectDB from './config/db';
+import lessonRoute from './routes/lessonRoutes';
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoute);
+app.use('/api/lesson', lessonRoute);
 
 // Error handler
 app.use(errorHandler);
