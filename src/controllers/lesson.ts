@@ -117,10 +117,6 @@ const getLessonById = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.user) {
-      throw new UnauthorizedError('User not authenticated');
-    }
-
     const { id } = req.params;
 
     // Validate ObjectId format

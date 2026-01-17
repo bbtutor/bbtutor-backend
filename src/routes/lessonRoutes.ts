@@ -6,13 +6,28 @@ import {
   deleteLesson,
   updateLesson,
 } from '../controllers/lesson';
+import { adminMiddleware } from '../middlewares/adminMiddleware';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
-router.post('/create-lesson', createLesson);
+// Public routes - anyone can view lessons
+router.post('/create-lesson', authMiddleware, adminMiddleware, createLesson);
 router.get('/get-lessons', getAllLessons);
 router.get('/get-lesson/:id', getLessonById);
-router.delete('/delete-lesson/:id', deleteLesson);
-router.patch('/update-lesson/:id', updateLesson);
+
+// Admin-only routes - create, update, delete
+router.delete(
+  '/delete-lesson/:id',
+  authMiddleware,
+  adminMiddleware,
+  deleteLesson
+);
+router.patch(
+  '/update-lesson/:id',
+  authMiddleware,
+  adminMiddleware,
+  updateLesson
+);
 
 export default router;
