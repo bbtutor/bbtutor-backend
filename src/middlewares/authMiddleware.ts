@@ -18,10 +18,7 @@ const authMiddleware = async (
     }
 
     // Verify token
-    const decodedToken = jwt.verify(
-      token,
-      checkEnv(process.env.JWT_SECRET as string)
-    ) as {
+    const decodedToken = jwt.verify(token, checkEnv('JWT_SECRET')) as {
       id: string;
     };
 
