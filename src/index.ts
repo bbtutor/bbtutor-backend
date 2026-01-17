@@ -1,10 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import path from 'path';
 import authRoute from './routes/authRoutes';
 import errorHandler from './errors/errorHandler';
 import connectDB from './config/db';
 import lessonRoute from './routes/lessonRoutes';
-dotenv.config();
+
+// Load .env.local file
+dotenv.config({ path: path.join(__dirname, '../.env.local') });
 
 const app = express();
 const PORT = process.env.PORT || 8080;

@@ -37,7 +37,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     // Generate token
-    const accessToken = generateAccessToken(user);
+    const accessToken = await generateAccessToken(user);
 
     return res.status(201).json({
       success: true,
@@ -81,7 +81,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     // Generate token
-    const accessToken = generateAccessToken(user);
+    const accessToken = await generateAccessToken(user);
 
     return res.status(200).json({
       success: true,
