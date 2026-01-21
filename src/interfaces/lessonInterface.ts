@@ -6,6 +6,9 @@ export interface ILesson extends Document {
   description: string;
   price: number;
   category?: string[];
+  paymentLink: string;
+  tag: string;
+  lessonsCovered: string[];
   instructor: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;

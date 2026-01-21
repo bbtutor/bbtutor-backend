@@ -21,16 +21,31 @@ const createLesson = async (
     }
 
     // get the lesson data from the request body
-    const { title, description, price, category, mediaUrl } = req.body as {
+    const {
+      title,
+      description,
+      price,
+      category,
+      mediaUrl,
+      paymentLink,
+      tag,
+      lessonsCovered,
+    } = req.body as {
       title: string;
       description: string;
       price: number;
       category?: string[];
       mediaUrl: string;
+      paymentLink: string;
+      tag: string;
+      lessonsCovered: string[];
     };
 
     // check if the lesson data is valid
     if (
+      !paymentLink ||
+      !lessonsCovered ||
+      !tag ||
       !mediaUrl ||
       !title ||
       !description ||
@@ -46,12 +61,15 @@ const createLesson = async (
 
     // create the lesson
     const lesson = await lessonModel.create({
+      paymentLink,
       mediaUrl,
       title,
       description,
       price,
       category,
       instructor: req.user._id,
+      tag,
+      lessonsCovered,
     });
 
     res.status(201).json({

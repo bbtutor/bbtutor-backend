@@ -25,6 +25,20 @@ const lessonSchema = new mongoose.Schema<ILesson>(
     category: {
       type: [String],
     },
+    paymentLink: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    tag: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    lessonsCovered: {
+      type: [String],
+      required: true,
+    },
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
