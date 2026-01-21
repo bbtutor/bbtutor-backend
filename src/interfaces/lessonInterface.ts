@@ -5,7 +5,6 @@ export interface ILesson extends Document {
   title: string;
   description: string;
   price: number;
-  category?: string[];
   paymentLink: string;
   tag: string;
   lessonsCovered: string[];

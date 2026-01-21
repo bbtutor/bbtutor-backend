@@ -25,7 +25,7 @@ const createLesson = async (
       title,
       description,
       price,
-      category,
+
       mediaUrl,
       paymentLink,
       tag,
@@ -34,7 +34,7 @@ const createLesson = async (
       title: string;
       description: string;
       price: number;
-      category?: string[];
+
       mediaUrl: string;
       paymentLink: string;
       tag: string;
@@ -66,7 +66,7 @@ const createLesson = async (
       title,
       description,
       price,
-      category,
+
       instructor: req.user._id,
       tag,
       lessonsCovered,
@@ -74,15 +74,7 @@ const createLesson = async (
 
     res.status(201).json({
       success: true,
-      data: {
-        id: lesson._id,
-        title: lesson.title,
-        description: lesson.description,
-        price: lesson.price,
-        category: lesson.category,
-        instructor: lesson.instructor,
-        createdAt: lesson.createdAt,
-      },
+      data: lesson,
     });
   } catch (error) {
     next(error);

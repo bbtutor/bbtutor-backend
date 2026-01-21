@@ -22,9 +22,7 @@ const lessonSchema = new mongoose.Schema<ILesson>(
       type: Number,
       required: true,
     },
-    category: {
-      type: [String],
-    },
+
     paymentLink: {
       type: String,
       trim: true,
