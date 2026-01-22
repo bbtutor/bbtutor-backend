@@ -9,6 +9,7 @@ import lessonRoute from './routes/lessonRoutes';
 import errorHandler from './errors/errorHandler';
 import connectDB from './config/db';
 import logger from './utils/winston';
+import cookieParser from 'cookie-parser';
 
 // Load environment variables
 dotenv.config({ path: '.env' });
@@ -24,6 +25,7 @@ app.use(helmet());
 
 // Body Parser Middleware
 app.use(express.json());
+app.use(cookieParser());
 
 // CORS Configuration
 const allowedOrigins =

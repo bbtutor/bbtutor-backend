@@ -39,6 +39,14 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     // Generate token
     const accessToken = await generateAccessToken(user);
 
+    // Set cookie with security options
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
     return res.status(201).json({
       success: true,
       message: 'User created successfully',
@@ -48,7 +56,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
         email: user.email,
         role: user.role,
       },
-      accessToken,
     });
   } catch (error) {
     next(error);
@@ -71,17 +78,25 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     // Find user and explicitly select password
     const user = await UserModel.findOne({ email }).select('+password');
     if (!user) {
-      throw new BadRequestError('Invalid email or password');
+      throw new BadRequestError('Invalid credentials');
     }
 
     // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new BadRequestError('Invalid email or password');
+      throw new BadRequestError('Invalid credentials');
     }
 
     // Generate token
     const accessToken = await generateAccessToken(user);
+
+    // Set cookie with security options
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
 
     return res.status(200).json({
       success: true,
@@ -92,7 +107,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         email: user.email,
         role: user.role,
       },
-      accessToken,
     });
   } catch (error) {
     next(error);
