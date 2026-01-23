@@ -12,7 +12,7 @@ import { authMiddleware } from '../middlewares/authMiddleware';
 const router = express.Router();
 
 // Public routes - anyone can view lessons
-router.post('/create-lesson', authMiddleware, adminMiddleware, createLesson);
+router.post('/create-lesson', authMiddleware, createLesson);
 router.get('/get-lessons', getAllLessons);
 router.get('/get-lesson/:id', getLessonById);
 
