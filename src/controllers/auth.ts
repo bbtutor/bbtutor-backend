@@ -26,7 +26,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       throw new BadRequestError('User already exists');
     }
 
-    // Hash the password - CORRECT WAY
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
@@ -51,6 +51,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(201).json({
       success: true,
       message: 'User created successfully',
+      accessToken: accessToken, // ✅ ADDED: Return token in response body
       user: {
         id: user._id,
         name: user.name,
@@ -102,6 +103,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(200).json({
       success: true,
       message: 'Login successful',
+      accessToken: accessToken, // ✅ ADDED: Return token in response body
       user: {
         id: user._id,
         name: user.name,
