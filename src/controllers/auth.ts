@@ -42,8 +42,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     // Set cookie with security options
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -93,8 +93,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     // Set cookie with security options
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
