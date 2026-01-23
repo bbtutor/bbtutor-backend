@@ -1,8 +1,9 @@
 import UserModel from '../models/userModel';
 import { NextFunction, Request, Response } from 'express';
-import { BadRequestError } from '../errors/customError';
+import { BadRequestError, UnauthorizedError } from '../errors/customError';
 import generateAccessToken from '../utils/genAccessToken';
 import bcrypt from 'bcrypt';
+import { AuthRequest } from '../interfaces/userInterface';
 
 // Register/Signup a User
 const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -113,4 +114,31 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { register, login };
+const getCurrentUser = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // req.user is set by authenticate middleware
+    const user = await UserModel.findById(req.user?._id).select('-password');
+
+    if (!user) {
+      throw new UnauthorizedError('User not found');
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { register, login, getCurrentUser };
